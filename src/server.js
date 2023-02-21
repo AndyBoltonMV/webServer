@@ -20,6 +20,29 @@ app.post("/createUser", async (request, response) => {
   response.send(user);
 });
 
+// Day 2 request params
+
+app.get("/user/:id", async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) {
+      throw new Error("No user found");
+    }
+    res.status(200).send({ user });
+  } catch (error) {
+    res.status(404).send({ err: error.message });
+  }
+});
+
+/*
+response = await fetch...
+data = await response.json()...
+if (data.status === 404) {
+  do some error handling
+  alert(incorrect credentials)
+}
+*/
+
 app.listen(3000, async () => {
   await db.sync();
   console.log("Server is running");
